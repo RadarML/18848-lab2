@@ -1,0 +1,13 @@
+# @package _global_
+trainer:
+  strategy:
+    _target_: lightning.pytorch.strategies.DDPStrategy
+    find_unused_parameters: false
+    # Pin to LightningEnvironment (single-node self-spawn)
+    cluster_environment:
+      _target_: lightning.fabric.plugins.environments.lightning.LightningEnvironment
+  devices: -1
+
+datamodule:
+  num_workers: 12
+  prefetch_factor: 1

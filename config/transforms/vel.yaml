@@ -1,0 +1,10 @@
+sample:
+  outputs:
+    vel: vel
+
+  vel:
+    inputs:
+      pose: pose
+    output: vel
+    transform:
+      _target_: nrdk.roverd.Velocity

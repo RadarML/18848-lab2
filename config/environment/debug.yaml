@@ -1,0 +1,19 @@
+# @package _global_
+# Tiny end-to-end run for checking that everything is wired up:
+#   uv run train.py +environment=debug
+datamodule:
+  ptrain: 0.01
+  pval: 0.01
+  batch_size: 8
+
+trainer:
+  val_check_interval: 0.5
+
+meta:
+  name: debug
+  version: v0
+  results: debug_results
+  verbose: 10
+
+lightningmodule:
+  vis_interval: 10

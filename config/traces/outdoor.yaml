@@ -1,0 +1,31 @@
+train:
+  _target_: nrdk.config.expand
+  path: ${meta.dataset}
+  outdoor:
+  - baum
+  - centre
+  - cmu.east
+  - cmu.north
+  - cmu.west
+  - craig.east
+  - craig.west
+  - ellsworth
+  - forbes.east
+  - forbes.west
+  - museum
+  - oakland.central
+  - oakland.east
+  - oakland.north
+  - oakland.schf
+  - oakland.wpsbc
+  - pitt.central
+  - pitt.west
+  - schenley
+
+test:
+  _target_: nrdk.config.expand
+  path: ${meta.dataset}
+  outdoor:
+  - fifth
+  - shadyside.central
+  - shadyside.west

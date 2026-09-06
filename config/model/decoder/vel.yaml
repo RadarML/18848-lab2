@@ -1,0 +1,12 @@
+vel:
+  _target_: nrdk.models.MLPVectorDecoder
+  layers:
+    - ${size.d_model}
+    - ${size.d_model}
+    - ${size.d_model}
+  dropout: 0.1
+  activation: gelu
+  dim: ${size.d_model}
+  shape: [1, 4]
+  strategy: last
+  channels_first: false

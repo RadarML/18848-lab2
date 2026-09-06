@@ -1,0 +1,17 @@
+wave:
+  queue: batch
+  gres: gpu:1
+  gres_eval: gpu:1
+  sbatch_args: []
+  eval_workers: "16"
+  nice: null
+
+psc:
+  queue: ROBO
+  gres: gpu:h100:1
+  gres_eval: gpu:h100:1
+  cpus: "12"
+  mem: 128G
+  max_time: "48:00:00"
+  eval_workers: "24"
+  nice: null

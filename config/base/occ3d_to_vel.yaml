@@ -1,0 +1,3 @@
+path: results/base/small/weights.pth
+rename:
+- decoder: null

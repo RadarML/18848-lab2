@@ -1,3 +1,8 @@
+# 18-848 lab2
+results/
+debug_results/
+data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

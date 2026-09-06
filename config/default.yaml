@@ -1,0 +1,80 @@
+defaults:
+  - _self_
+  - size: small
+  - sensors: ["radar", "lidar"]
+  - transforms: [radar, lidar3d]
+  - traces: all
+  - model: default
+  - trainer: default
+  - objective: lidar3d
+  - optimizer: default
+  - array: default
+
+hydra:
+  run:
+    dir: ${meta.results}/${meta.name}/${meta.version}
+  callbacks:
+    prevent_overwrite:
+      _target_: nrdk.config.PreventHydraOverwrite
+
+meta:
+  dataset: data
+  results: results
+  name: null
+  version: null
+  resume: null
+  compile: false
+  recompile_limit: null
+  patience: 3
+  dry_run: null
+
+history: 0
+
+model: {}
+objective: {}
+optimizer: {}
+sensors: {}
+traces: {}
+
+datamodule:
+  _target_: nrdk.roverd.datamodule
+  dataset:
+    _target_: roverd.Dataset.from_config
+    _partial_: true
+    sync:
+      _target_: abstract_dataloader.generic.Next
+      margin: [1.0, 1.0]
+      reference: "radar"
+    sensors: ${sensors}
+    workers: -1
+  traces: ${traces}
+  batch_size: 64
+  samples: 8
+  num_workers: 16
+  prefetch_factor: 1
+  subsample:
+    val: 16384
+  ptrain: 0.8
+  pval: 0.2
+
+lightningmodule:
+  _target_: nrdk.framework.NRDKLightningModule
+  vis_interval: 1000
+  vis_samples: 8
+  objective: ${objective}
+  model: ${model}
+  optimizer: ${optimizer}
+
+transforms:
+  _target_: abstract_dataloader.ext.torch.Pipeline
+  sample:
+    _target_: abstract_dataloader.ext.graph.Transform
+    keep_all: false
+    outputs: {}  # transforms/*.yaml
+  collate:
+    _target_: abstract_dataloader.ext.torch.Collate
+    mode: concat
+    convert_scalars: true
+  batch:
+    _target_: abstract_dataloader.ext.graph.Transform
+    keep_all: true

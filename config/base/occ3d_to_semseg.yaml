@@ -1,0 +1,4 @@
+path: results/base/small/weights.pth
+rename:
+- decoder.occ3d.unpatch: null
+- decoder.occ3d: decoder.semseg

@@ -1,0 +1,6 @@
+radar:
+  _partial_: true
+  _target_: roverd.sensors.XWRRadar
+  correction: null
+  past: ${history}
+  future: 0
