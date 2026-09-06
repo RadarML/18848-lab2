@@ -1,35 +1,6 @@
-"""GRT building blocks.
-
-??? tip "Use `TransformerEncoder` as the GRT encoder"
-
-    The GRT encoder is just a vanilla transformer encoder! If you're using
-    hydra, use the following:
-    ```yaml
-    encoder:
-      _target_: torch.nn.TransformerEncoder
-      encoder_layer:
-        _target_: torch.nn.TransformerEncoderLayer
-        d_model: 512
-        nhead: 8
-        dim_feedforward: 2048
-        dropout: 0.1
-        activation: gelu
-        layer_norm_eps: 1e-5
-        batch_first: true
-        norm_first: true
-        bias: true
-      num_layers: 4
-      enable_nested_tensor: false
-    ```
-    To match the settings used by GRT, after selecting the appropriate
-    `d_model` and `num_layers`:
-
-    - Set `dim_feedforward` to `4.0 * d_model`
-    - Set `n_head` to `d_model // 64`
-"""
+"""GRT spectrum linear patch tokenizer."""
 
 from collections.abc import Sequence
-from typing import Literal
 
 from jaxtyping import Float
 from nrdk import modules
@@ -40,11 +11,8 @@ from torch import Tensor, nn
 class SpectrumTokenizer(nn.Module):
     """GRT 4D Radar Spectrum tokenizer.
 
-    Two types of positional embeddings are supported:
-
-    - `nd` (recommended): n-dimensional embeddings, splitting the input
-        features into `d` equal chunks encoding each axis separately.
-    - `flat`: flattened positional embeddings, similar to the original ViT.
+    Positional embeddings are n-dimensional, splitting the input features into
+    `d` equal chunks encoding each axis separately.
 
     !!! info
 
@@ -66,7 +34,6 @@ class SpectrumTokenizer(nn.Module):
         n_channels: number of input channels; see [`xwr.nn`][xwr.nn].
         scale: position embedding scale.
         w_min: minimum frequency for sinusoidal position embeddings.
-        positions: type of positional embedding.
     """
 
     def __init__(
@@ -74,7 +41,6 @@ class SpectrumTokenizer(nn.Module):
         squeeze: Sequence[int] = [], n_channels: int = 2,
         scale: Sequence[float] | float | None = None,
         w_min: Sequence[float] | float | None = 0.2,
-        positions: Literal["flat", "nd"] = "nd",
     ) -> None:
         super().__init__()
 
@@ -93,7 +59,6 @@ class SpectrumTokenizer(nn.Module):
         self.patch = modules.PatchMerge(
             d_in=n_channels, d_out=d_model, scale=patch, norm=False)
 
-        self.positions = positions
         self.pos = modules.Sinusoid(scale=scale, w_min=w_min)
         self.readout = modules.Readout(d_model=d_model)
 
@@ -113,12 +78,7 @@ class SpectrumTokenizer(nn.Module):
         if self.squeeze is not None:
             x = self.squeeze(x)
 
-        embedded = self.patch(x)
-
-        if self.positions == "nd":
-            embedded = self.pos(embedded)
+        embedded = self.pos(self.patch(x))
         flat = embedded.reshape(embedded.shape[0], -1, embedded.shape[-1])
-        if self.positions == "flat":
-            flat = self.pos(flat)
 
         return self.readout(flat)
