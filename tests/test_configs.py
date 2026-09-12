@@ -80,10 +80,15 @@ def compose_cfg(overrides: list[str]) -> DictConfig:
     `size=pico` keeps instantiation cheap unless the case under test is
     itself a `size` config.
     """
+    # Only use CPU for instantiation tests.
+    DEVICE_OVERRIDES = ["trainer.accelerator=cpu", "trainer.devices=1"]
+
     sized = any(o.startswith("size=") for o in overrides)
     extra = [] if sized else ["size=pico"]
     with initialize_config_dir(config_dir=str(CONFIG_DIR), version_base="1.3"):
-        return compose(config_name="default", overrides=extra + overrides)
+        return compose(
+            config_name="default",
+            overrides=extra + overrides + DEVICE_OVERRIDES)
 
 
 def instantiate_all(cfg: DictConfig) -> None:
