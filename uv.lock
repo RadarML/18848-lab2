@@ -931,7 +931,7 @@ wheels = [
 
 [[package]]
 name = "nrdk"
-version = "0.3.2"
+version = "0.3.3"
 source = { editable = "nrdk" }
 dependencies = [
     { name = "abstract-dataloader" },
@@ -972,6 +972,7 @@ requires-dist = [
     { name = "lightning", specifier = "==2.5.5" },
     { name = "matplotlib", specifier = ">=3.0.0" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = "==1.6.*" },
+    { name = "mkdocs-llmstxt", marker = "extra == 'docs'", specifier = ">=0.5.0" },
     { name = "mkdocs-material", marker = "extra == 'docs'", specifier = "==9.6.*" },
     { name = "mkdocstrings", marker = "extra == 'docs'", specifier = "==0.29.*" },
     { name = "mkdocstrings-python", marker = "extra == 'docs'", specifier = "==1.16.6" },
