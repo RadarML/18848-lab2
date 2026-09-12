@@ -1,0 +1,6 @@
+# @package _global_
+datamodule:
+  ptrain: 0.4
+
+trainer:
+  val_check_interval: 0.5

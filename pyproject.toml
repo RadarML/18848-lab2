@@ -46,7 +46,7 @@ find-links = [
 ]
 
 [tool.uv.sources]
-nrdk = { git = "https://github.com/RadarML/nrdk.git", tag = "v0.3.2" }
+nrdk = { path = "nrdk", editable = true }
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

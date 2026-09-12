@@ -26,10 +26,12 @@ class EnvironmentConfig:
 
     Attributes:
         name: Environment name; if not specified, detected from the local
-            hostname (`psc` if it ends with `bridges2.psc.edu`, else
+            hostname (`psc-18848` if it ends with `bridges2.psc.edu`, else
             `wave`). Other unspecified fields load their defaults from the
             corresponding entry in `environments.yaml`.
         queue: SLURM queue/partition to submit jobs to.
+        account: SLURM account to bill the job to; if `None`, no `--account`
+            is passed, and slurm uses your default account.
         gres: Generic resources (e.g., GPUs) for training jobs.
         gres_eval: Generic resources for evaluation jobs.
         cpus: Number of CPU cores to allocate per GPU.
@@ -42,6 +44,7 @@ class EnvironmentConfig:
 
     name: str | None = None
     queue: str | None = None
+    account: str | None = None
     gres: str | None = None
     gres_eval: str | None = None
     cpus: str | None = None
@@ -54,7 +57,7 @@ class EnvironmentConfig:
         """Set default values from environments.yaml if not specified."""
         if self.name is None:
             if socket.gethostname().endswith("bridges2.psc.edu"):
-                self.name = "psc"
+                self.name = "psc-18848"
             else:
                 self.name = "wave"
 
@@ -69,6 +72,8 @@ class EnvironmentConfig:
             self.gres_eval = defaults.get("gres_eval", "gpu:1")
         if self.queue is None:
             self.queue = defaults.get("queue", "batch")
+        if self.account is None:
+            self.account = defaults.get("account", None)
         if self.cpus is None:
             self.cpus = defaults.get("cpus", None)
         if self.mem is None:

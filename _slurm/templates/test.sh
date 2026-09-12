@@ -1,6 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name={{name}}.{{version}}.test
 #SBATCH --partition={{env.queue}}
+{%- if env.account is not none %}
+#SBATCH --account={{env.account}}
+{%- endif %}
 #SBATCH --gres={{env.gres_eval}}
 #SBATCH --output={{results}}/{{name}}/{{version}}/test.%N.%j.log
 #SBATCH --error={{results}}/{{name}}/{{version}}/test.%N.%j.err

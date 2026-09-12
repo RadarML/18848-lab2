@@ -1,0 +1,3 @@
+[submodule "nrdk"]
+	path = nrdk
+	url = https://github.com/RadarML/nrdk.git

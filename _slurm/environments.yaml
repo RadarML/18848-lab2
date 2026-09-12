@@ -1,17 +1,35 @@
-wave:
-  queue: batch
-  gres: gpu:1
-  gres_eval: gpu:1
-  sbatch_args: []
-  eval_workers: "16"
-  nice: null
+# Cluster defaults for `submit.py`, keyed by environment name.
+#
+# Each entry must have a matching hydra config in `config/environment/`, which
+# the job scripts compose via `+environment=<name>`.
 
-psc:
-  queue: ROBO
+psc-18848:
+  queue: GPU-shared
+  account: ele260011p
   gres: gpu:h100:1
   gres_eval: gpu:h100:1
   cpus: "12"
   mem: 128G
   max_time: "48:00:00"
   eval_workers: "24"
+  nice: null
+
+psc-robo:
+  queue: ROBO
+  account: null
+  gres: gpu:h100:1
+  gres_eval: gpu:h100:1
+  cpus: "12"
+  mem: 128G
+  max_time: "48:00:00"
+  eval_workers: "24"
+  nice: null
+
+wave:
+  queue: batch
+  account: null
+  gres: gpu:1
+  gres_eval: gpu:1
+  sbatch_args: []
+  eval_workers: "16"
   nice: null

@@ -3,9 +3,10 @@
 from collections.abc import Sequence
 
 from jaxtyping import Float
-from nrdk import modules
 from nrdk.roverd import SpectrumData
 from torch import Tensor, nn
+
+from nrdk import modules
 
 
 class SpectrumTokenizer(nn.Module):

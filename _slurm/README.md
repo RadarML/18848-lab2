@@ -26,9 +26,20 @@ you are still at the terminal.
   batch on a real GPU) before rendering.
 - `--dry-run skip`: submit without any checks.
 
-Cluster defaults (queue, GPU type, CPUs, memory, wall time) live in
+Cluster defaults (queue, account, GPU type, CPUs, memory, wall time) live in
 `environments.yaml`, keyed by environment name. The environment is detected
-from the hostname -- `psc` on Bridges-2, otherwise `wave` -- and can be
+from the hostname -- `psc-18848` on Bridges-2, otherwise `wave` -- and can be
 overridden with `--env.name`. Each entry here has a matching Hydra config in
 `config/environment/`, which the job script composes via `+environment=<name>`
 to set the distributed strategy and dataloader worker count.
+
+| Environment | Partition | Account |
+| --- | --- | --- |
+| `psc-18848` | `GPU-shared` | `ele260011p`, the 18-848 class allocation |
+| `psc-robo` | `ROBO` | your default slurm account |
+| `wave` | `batch` | your default slurm account |
+
+`psc-18848` is the default on Bridges-2 and the only environment which sets
+`--account`; the others leave it unset, and slurm bills your default account.
+Any individual field can be overridden per-submission, e.g. `--env.queue GPU`
+or `--env.account <other>`.

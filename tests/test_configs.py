@@ -40,7 +40,7 @@ LIST_STYLE_GROUPS = {"sensors", "transforms"}
 # Groups not present in default.yaml's defaults list at all -- only reachable
 # by *adding* a new default entry (`+group=value`), not by overriding an
 # existing one (`group=value`).
-OPTIONAL_GROUPS = {"environment"}
+OPTIONAL_GROUPS = {"environment", "split"}
 
 # The `radar` transform produces the `spectrum` every other transform reads,
 # so it stays composed when sweeping the rest of the group.
