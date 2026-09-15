@@ -18,8 +18,8 @@ callbacks:
   name: perf
 - _target_: lightning.pytorch.callbacks.ModelCheckpoint
   monitor: loss/val
-  save_top_k: -1
-  save_last: false
+  save_top_k: 1
+  save_last: true
   dirpath: null
 - _target_: lightning.pytorch.callbacks.EarlyStopping
   monitor: loss/val
