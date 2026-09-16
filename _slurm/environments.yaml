@@ -6,8 +6,8 @@
 psc-18848:
   queue: GPU-shared
   account: ele260011p
-  gres: gpu:h100:2
-  gres_eval: gpu:h100:1
+  gres: gpu:h100-80:1
+  gres_eval: gpu:h100-80:1
   cpus: "12"
   mem: 128G
   max_time: "12:00:00"
